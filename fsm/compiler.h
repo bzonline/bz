@@ -1,0 +1,20 @@
+//////////////////////////////////////////////////////////////////////
+// File name : compiler.h
+// Purpose : формирует Fsm из текста программы на языке bz.
+// Author : Boris Zverev (bz) aka Privet
+///////////////////////////////////////////////////////////////////////
+
+#include <Fsm.h>
+
+class Compile
+{
+public:
+	Compile(std::string& _prg);
+	virtual ~Compile();
+	
+private:
+	std::string   prg;
+};
+
+
+///////////////// End File  : compiler.h  ///////////////////////////////

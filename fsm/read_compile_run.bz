@@ -1,0 +1,10 @@
+name: read_compile_run
+
+. Функция парсит коммандную строку и возврвщает массив именованных переменных PARAMS[].
+{ПАРАМ[]} = parse_command_line({IN})
+
+text file_content = read_file({ПАРАМ[]})
+
+код = compile(file_content)
+
+незнамо_что = run(код)
