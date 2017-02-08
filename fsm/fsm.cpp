@@ -55,7 +55,8 @@ Connect::Connect() :
 	name(),
 	pdata(NULL),
 	size(0),
-	contacts()
+	pcontacts(),
+	id_count(0)
 {}
 
 Connect::Connect(const std::string _name) :
@@ -63,7 +64,26 @@ Connect::Connect(const std::string _name) :
 	name(_name),
 	pdata(NULL),
 	size(0),
-	contacts()
+	pcontacts(),
+	id_count(0)
+{}
+
+Connect::Connect(const Connect& other) :
+	id(other.id),
+	name(other.name),
+	pdata(other.pdata),
+	size(other.size),
+	pcontacts(other.pcontacts),
+	id_count(other.id_count)
+{}
+
+Connect::Connect(Connect&&  other) :
+	id(other.id),
+	name(other.name),
+	pdata(other.pdata),
+	size(other.size),
+	pcontacts(other.pcontacts),
+	id_count(other.id_count)
 {}
 
 Connect::~Connect()
@@ -71,13 +91,25 @@ Connect::~Connect()
 	name.clear();
 	if(pdata)
 		free(pdata);
-	contacts.clear();
+	pcontacts.clear();
+}
+
+Connect& Connect::operator=(const Connect& other)
+{
+	Connect* pconnect = new Connect(other);
+	return *pconnect;
+}
+
+Connect& Connect::operator=(Connect&& other)
+{
+	Connect* pconnect = new Connect(other);
+	return *pconnect;
 }
 
 Connect& Connect::operator+=(Contact& contact)
 {
 	contact.id = id_count++;
-	contacts.push_back(&contact);
+	pcontacts.push_back(&contact);
 	return *this;
 }
 
@@ -105,11 +137,46 @@ Node::Node(Fsm* _pfsm, const NodeType _type, const std::string _name, const Job 
 	contacts()
 {}
 
+Node::Node(const Node& other) :
+	id(other.id),
+	type(other.type),
+	name(other.name),
+	pfsm(other.pfsm),
+	pjob(other.pjob),
+	cont_count(other.cont_count),
+	transitions(other.transitions),
+	contacts(other.contacts)
+{}
+
+Node::Node(Node&& other) :
+	id(other.id),
+	type(other.type),
+	name(other.name),
+	pfsm(other.pfsm),
+	pjob(other.pjob),
+	cont_count(other.cont_count),
+	transitions(other.transitions),
+	contacts(other.contacts)
+{}
+
 Node::~Node()
 {
 	name.clear();
 	transitions.clear();
 	contacts.clear();
+}
+
+
+Node& Node::operator=(const Node& other)
+{
+	Node* pnode = new Node(other);
+	return *pnode;
+}
+
+Node& Node::operator=(Node&& other)
+{
+	Node* pnode = new Node(other);
+	return *pnode;
 }
 
 
@@ -119,14 +186,12 @@ Node& Node::operator+=(Transition& transition)
 	return *this;
 }
 
-
 Node& Node::operator+=(Contact& contact)
 {
 	contact.id = cont_count++;
 	contacts.push_back(contact);
 	return *this;
 }
-
 
 Node& Node::operator+=(const Job _pjob)
 {
@@ -184,7 +249,7 @@ Fsm::Fsm() :
 	id_last(0)
 {}
 
-Fsm::Fsm(const size_t _id, const std::string _name):
+Fsm::Fsm(const id_t _id, const std::string _name) :
 	id(_id),
 	name(_name),
 	nodes(),
@@ -203,14 +268,7 @@ Fsm::~Fsm()
 // returns assigned id.
 /// @param[in] : Node to be added into Fsm
 /// @returns added node id that is assigned by this function.
-size_t Fsm::PutNode(const std::string name)
-{
-	Node* pnode = new Node(this, nodeUNDEFINED, name);
-	nodes[node_count] = *pnode;
-	return node_count++;
-}
-
-size_t Fsm::PutNode(const Node& node)
+id_t Fsm::PutNode(const Node& node)
 {
 	nodes[node_count] = node;
 	return node_count++;
@@ -228,16 +286,14 @@ Fsm& Fsm::operator+=(const Connect& connect)
 	return *this;
 }
 
-
 /// @param[in] : 
 /// @returns 
-Node* Fsm::GetNode(const size_t id)
+Node& Fsm::GetNode(const id_t id)
 {
-	Node* pnode = &nodes[id];
-	return pnode;
+	return nodes[id];
 }
 
-int Fsm::Start(const size_t id)
+status_t Fsm::Start(const id_t id)
 {
 	id_last = id;
 // unlock stop
@@ -245,7 +301,7 @@ int Fsm::Start(const size_t id)
 }
 
 // returns id of last node whicn completed its own job.
-size_t Fsm::Stop()
+id_t Fsm::Stop()
 {
 // lock stop
 	return id_last;

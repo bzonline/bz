@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{133ec20b-eedd-4cbb-ab4e-17e4cc3155fc}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{d995f9fd-543e-419c-8722-7e0419750e34}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{9f54ed03-bf62-48b7-8687-e80a3a24c647}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Make files">
+      <UniqueIdentifier>{89f59328-51ab-4aad-9232-c364e19126b2}</UniqueIdentifier>
+      <Extensions>*.mak</Extensions>
+    </Filter>
+    <Filter Include="VisualGDB settings">
+      <UniqueIdentifier>{0320dce5-4725-4dac-a04b-b76b9cc861bf}</UniqueIdentifier>
+      <Extensions>*.vgdbsettings</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="debug.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="fsm-Debug.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="release.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="fsm-Release.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="gdb.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="..\makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\compiler.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\fmsui.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\fsm.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\worker.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\compiler.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fsm.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ifsm.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\nodetypes.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\nodetypes_ext.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\worker.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

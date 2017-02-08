@@ -1,20 +1,27 @@
+#pragma once
 //////////////////////////////////////////////////////////////////////
 // File name : compiler.h
 // Purpose : формирует Fsm из текста программы на языке bz.
 // Author : Boris Zverev (bz) aka Privet
 ///////////////////////////////////////////////////////////////////////
 
-#include <Fsm.h>
+#include <worker.h>
 
-class Compile
+namespace bz
 {
-public:
-	Compile(std::string& _prg);
-	virtual ~Compile();
-	
-private:
-	std::string   prg;
-};
+	class Compile
+	{
+	public:
+		Compile(Fsm* pFsm, const std::string& _src);
+		virtual ~Compile();
 
+		Fsm* parse_fsm(const std::string src);
+		Node* parse_node(Fsm* pFsm, const std::string name);
+
+	private:
+		Fsm* pFsm;
+		std::string   src;
+	};
+}
 
 ///////////////// End File  : compiler.h  ///////////////////////////////

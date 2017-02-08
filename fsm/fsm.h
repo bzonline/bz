@@ -1,9 +1,10 @@
-#pragma once/**
+#pragma once
+/**
  *  \file file.h
  *  \brief Defines Fsm class.
  */
 //////////////////////////////////////////////////////////////////////
-// File name : Fsm.h
+// File name : fsm.h
 // Purpose : Defines Fsm class. 
 // Author : Boris Zverev (bz) aka Privet
 ///////////////////////////////////////////////////////////////////////
@@ -16,14 +17,19 @@
 //#include <stdexcept>
 //# include <cerrno>
 #include <pthread.h>
+#include <nodetypes.h>
 
 
 namespace bz
 {
+	typedef   unsigned int      id_t;
+	typedef   unsigned int   count_t;
+	typedef            int  status_t;
+
 	struct Transition
 	{
-		std::vector<unsigned int> input;  // vector of input statuses
-		std::vector<unsigned int> output; // vector of next nodes ids
+		std::vector<id_t>    input; // vector of input statuses
+		std::vector<id_t>   output; // vector of next nodes ids
 	};
 	
 	struct Connect;
@@ -43,64 +49,77 @@ namespace bz
 	struct Contact
 	{
 		Contact();
+		Contact(const ContactType _type, const std::string _name = "");
 		virtual ~Contact();
 		
-		unsigned int            id;
-		pthread_mutex_t        mtx;
-		Connect*          pconnect;
-		short                 type;
-		short              typenow;
+		id_t                            id;
+		ContactType                   type;
+		std::string                   name;
+		pthread_mutex_t                mtx;
+		Connect*                  pconnect;
+
+		friend class Fsm;
 	};
 	
 ///////////////////////////////////////////////////////////  Connect
 	struct Connect
 	{
 		Connect();
-		Connect(Contact& out);
+		Connect(const Connect& other);
+		Connect(Connect&& other);
+		Connect(const std::string _name);
 		virtual ~Connect();
-				
-		unsigned int              id;
-		void*                  pdata;
-		unsigned int            size;
-		Contact               output;  // От Ноды N
-		std::vector<Contact*> inputs;  // К Нодам N+1 и далее...
+		
+		Connect& operator=(const Connect& other);
+		Connect& operator=(Connect&& other);
+
+		Connect& operator+=(Contact& contact);
+
+		id_t                            id;
+		std::string                   name;
+		void*                        pdata;
+		size_t                        size;
+		std::vector<Contact*>    pcontacts;
+		count_t                   id_count;
 	};
 
 
 	class Fsm;
+	class Compile;
 
 	// Почему Connect? Потому, что он имеет данные и связан с in & out
-	typedef int (*Job)(Connect& connect);
+	typedef status_t(*Job)(Connect& connect);
 
 ///////////////////////////////////////////////////////////  Node
 	class Node
 	{
 	public:
 		Node();
-		Node(Fsm* _pfsm, const unsigned int _id, const std::string _name);
-		//Node(const Node& other) = delete;
-		//Node(Node&& other) = delete;
+		Node(const Node& other);
+		Node(Node&& other);
+		Node(Fsm* _pfsm, const NodeType _type, const std::string _name="", const Job _pjob=NULL);
 		virtual ~Node();
 		
-//		Node& operator=(const Node& other) = delete;
-//		Node& operator=(Node&& other) = delete;
+		Node& operator=(const Node& other);
+		Node& operator=(Node&& other);
 		
-		Node& operator+=(const Transition& transition);
-		Node& operator+=(const Contact& contact);
+		Node& operator+=(Transition& transition);
+		Node& operator+=(Contact& contact);
 		Node& operator+=(const Job pjob);
 
 		int execute();
 		
 	private:
-		unsigned int   id;
-		std::string  name;  // имя ноды -> имя выполняемой функции
-		Fsm*         pfsm;
-		Job          pjob;
-		
-		std::map<std::vector<unsigned int>, 
-		         std::vector<unsigned int>> transitions;
-		
-		std::vector <Contact>  contacts;
+		id_t                            id;
+		NodeType                      type;
+		std::string                   name;  // имя ноды -> имя выполняемой функции
+		Fsm*                          pfsm;
+		Job                           pjob;
+		count_t                 cont_count;
+		std::map<std::vector<id_t>, std::vector<id_t>>  transitions;
+		std::vector<Contact>      contacts;
+
+		friend class Fsm;
 	};
 	
 	
@@ -109,7 +128,7 @@ namespace bz
 	{
 	public:
 		Fsm();
-		Fsm(const std::string name);
+		Fsm(const id_t _id, const std::string _name = "");
 		virtual ~Fsm();
 
 		// StateMachine Method prototype
@@ -118,26 +137,33 @@ namespace bz
 		// returns assigned id to inserted node.
 		/// @param[in] : Node to be added into Fsm
 		/// @returns added node id that is assigned by this function.
-		unsigned int AddNode(const std::string name);
-		unsigned int AddNode(const Node* pnode);
+		id_t PutNode(const Node& pnode);
+
+		Fsm& operator+=(const Node& node);
+		Fsm& operator+=(const Connect& connect);
 
 		/// @param[in] : 
 		/// @returns 
-		Node* GetNode(unsigned int id);
+		Node& GetNode(const id_t id);
 
-		int Start(unsigned int id);
+		status_t Start(id_t id);
 
 		// returns id of last node whicn completed its own job.
 		unsigned int Stop();
 
 	private:
-		std::string                   name;
+		id_t                                     id;
+		std::string                            name;
 		//         node id     node
-		std::map<unsigned int, Node>  nodes;
-		unsigned int               id_count;
-		unsigned int                id_last;
+		std::map<id_t, Node>                  nodes;
+		std::map<id_t, Connect>            connects;
+		count_t                          node_count;
+		count_t                          conn_count;
+		id_t                                id_last;
+
+		friend class Compile;
 	};
 
 } // namespase bz
 
-///////////////// End File  : Fsm.h  ///////////////////////////////
+///////////////// End File  : fsm.h  ///////////////////////////////

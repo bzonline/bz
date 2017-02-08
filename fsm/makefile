@@ -19,11 +19,14 @@ HEADERS+=$(patsubst %.hpp,%.h, $(wildcard *.hpp))
 
 # COMMON COMMON COMMON COMMON COMMON COMMON COMMON COMMON
 ARCH=x64
+
 ifeq (CONFIG, Debug)
 SUBDIR=debug
-else
-CONFIG=Release
+elif (CONFIG, Release)
 SUBDIR=release
+else
+CONFIG=Debug
+SUBDIR=debug
 endif
 
 # Specify files to be included
@@ -44,18 +47,24 @@ AS=/usr/bin/as
 GDB=/usr/bin/gdb
 MKDIR=/usr/bin/mkdir -p
 
-#GXXFLAGS=-c -std=c++11 -m64 -Wall -Werror -fpermissive
-GXXFLAGS=-c -std=c++17 -m64 -Wall -Werror
-CFLAGS=-c -m64 -Wall -Werror
 
 ifeq (CONFIG, Debug)
-GXXFLAGS+= -g -DDEBUG
-CFLAGS+= -g -DDEBUG
+GXXFLAGS= -g -DDEBUG
+CFLAGS= -g -DDEBUG
 endif
 ifeq (CONFIG, Release)
-GXXFLAGS+= -O2
-CFLAGS+= -O2
+GXXFLAGS= -O2
+CFLAGS= -O2
 endif
+
+GXXFLAGS+=-c -std=c++14 -m64 -Wall -Werror
+CFLAGS+=-c -m64 -Wall -Werror
+
+ifdef MAP
+GXXFLAGS+= -Wa,-aln=$(OBJDIR)$<.s
+CFLAGS+= -Wa,-aln=$(OBJDIR)$<.s
+endif
+
 
 ASFLAGS=
 LDFLAGS=-Wl,-Map=$(OBJDIR)$(TARGETNAME).map
@@ -86,11 +95,11 @@ endif
 # Compile the source files into an object files
 $(OBJDIR)%.o : %.c $(HEADERS) $(BLDDIR) $(OBJDIR)
 	$(RM) $(OBJDIR)$<.s
-	$(GCC) $(INCDIR) $(CFLAGS)$(OBJDIR)$<.s $< -o $@
+	$(GCC) $(INCDIR) $(CFLAGS)$ $< -o $@
   
 $(OBJDIR)%.o : %.cpp $(HEADERS) $(BLDDIR) $(OBJDIR)
 	$(RM) $(OBJDIR)$<.s
-	$(GXX) $(INCDIR) $(GXXFLAGS)$(OBJDIR)$<.s $< -o $@
+	$(GXX) $(INCDIR) $(GXXFLAGS) $< -o $@
   
 $(BLDDIR) :
 	$(MKDIR) $(BLDDIR)

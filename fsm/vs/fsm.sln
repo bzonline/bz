@@ -1,0 +1,63 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fsm", "fsm.vcxproj", "{15440B9E-4E6B-4D28-9BF7-70D35CD78503}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|VisualGDB = Debug|VisualGDB
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		GDB|ARM = GDB|ARM
+		GDB|VisualGDB = GDB|VisualGDB
+		GDB|x64 = GDB|x64
+		GDB|x86 = GDB|x86
+		NewWindowsConfiguration|ARM = NewWindowsConfiguration|ARM
+		NewWindowsConfiguration|VisualGDB = NewWindowsConfiguration|VisualGDB
+		NewWindowsConfiguration|x64 = NewWindowsConfiguration|x64
+		NewWindowsConfiguration|x86 = NewWindowsConfiguration|x86
+		Release|ARM = Release|ARM
+		Release|VisualGDB = Release|VisualGDB
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|ARM.ActiveCfg = Debug|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|ARM.Build.0 = Debug|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|x64.ActiveCfg = NewWindowsConfiguration|x64
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|x64.Build.0 = NewWindowsConfiguration|x64
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|x86.ActiveCfg = Debug|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Debug|x86.Build.0 = Debug|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|ARM.ActiveCfg = GDB|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|ARM.Build.0 = GDB|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|VisualGDB.ActiveCfg = GDB|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|VisualGDB.Build.0 = GDB|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|x64.ActiveCfg = GDB|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|x64.Build.0 = GDB|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|x86.ActiveCfg = GDB|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.GDB|x86.Build.0 = GDB|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|ARM.ActiveCfg = NewWindowsConfiguration|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|ARM.Build.0 = NewWindowsConfiguration|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|VisualGDB.ActiveCfg = Release|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|VisualGDB.Build.0 = Release|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|x64.ActiveCfg = NewWindowsConfiguration|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|x64.Build.0 = NewWindowsConfiguration|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|x86.ActiveCfg = NewWindowsConfiguration|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.NewWindowsConfiguration|x86.Build.0 = NewWindowsConfiguration|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|ARM.ActiveCfg = Release|ARM
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|ARM.Build.0 = Release|ARM
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|x64.ActiveCfg = Release|x64
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|x64.Build.0 = Release|x64
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|x86.ActiveCfg = Release|Win32
+		{15440B9E-4E6B-4D28-9BF7-70D35CD78503}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -14,28 +14,18 @@
 using namespace bz;
 
 
-std::map<NodeType, NodeParams> NodeMap =
+std::map<std::string, NodeParams> NodeMap =
 {
-	{ nodeNONE, { "none", NULL, 0, 0 } },
-	{ nodePARSE_COMMAND_LINE,   {"parse_command_line",  Tnode<char*[]>,      1, 1} },
-	{ nodeREAD_FILE_CONTENT,    {"read_file_content",   Tnode<char*>,        1, 1} },
-	{ nodeCOMPILE_BZ_CODE,      {"compile_bz_code",     Tnode<std::string>,  1, 1} },
-	{ nodeUNDEFINED,            { "undefined", NULL, 0, 0 } }
+	{ "none",{ nodeNONE,                               NULL,                0,  0 } },
+	{ "parse_command_line",{ nodePARSE_COMMAND_LINE,  parse_command_line,  1,  1 } },
+	{ "read_file_content",{ nodeREAD_FILE_CONTENT,   read_file_content,   1,  1 } },
+	{ "compile_bz_code",{ nodeCOMPILE_BZ_CODE,     compile_bz_code,     1,  1 } },
+	{ "undefined",{ nodeUNDEFINED,           NULL,                0,  0 } }
 };
 
 
 
-Node* create_node(Fsm* pFsm, NodeType type)
-{
-	const NodeParams& npar = NodeMap[type];
-
-	Node* pnode = new Node(pFsm, type, npar.name);
-	
-	return pnode;
-}
-
-
-std::string read_file_content(const char *filename)
+std::string get_file_content(const char *filename)
 {
   std::FILE *fp = std::fopen(filename, "rb");
   if (fp)
@@ -63,23 +53,5 @@ std::string read_file_content(const char *filename)
 //  }
 //  throw(errno);
 //}
-
-template<> int Tnode<char*[]>(Connect& pconnect)
-{
-	return 0;
-}
-
-template<> int Tnode<char*>(Connect& pconnect)
-{
-	return 0;
-}
-
-template<> int Tnode<std::string>(Connect& pconnect)
-{
-	return 0;
-}
-
-
-
 
 ///////////////// End File  : worker.h  ///////////////////////////////

@@ -1,3 +1,4 @@
+#pragma once
 //////////////////////////////////////////////////////////////////////
 // File name : worker.h
 // Purpose : Реализует Node функциональность.
@@ -10,49 +11,24 @@
 //#include <iostream>
 
 
-using namespace bz;
-
-
-template<typename T>
-int Tnode(Connect& pconnect);
-//	{
-//		T* pbuff = NULL;
-//
-//		Tbuff = reinterpret_cast<T>(&pconnect.pdata);
-//
-//		return TWork(Tbuff);
-//	}
-	
-	
-template<> int Tnode<char*[]>(Connect& pconnect);
-template<> int Tnode<char*>(Connect& pconnect);
-template<> int Tnode<std::string>(Connect& pconnect);
-
-
-enum NodeType: unsigned int
+namespace bz
 {
-	nodeNONE,
-	nodePARSE_COMMAND_LINE,
-	nodeREAD_FILE_CONTENT,
-    nodeCOMPILE_BZ_CODE,
-    nodeUNDEFINED
-};
+	status_t parse_command_line(Connect& connect);
+	status_t read_file_content(Connect& connect);
+	status_t compile_bz_code(Connect& connect);
 
+	struct NodeParams
+	{
+		NodeType         type;
+		Job              pjob;
+		count_t      in_count;
+		count_t     out_count;
+	};
 
-struct NodeParams
-{
-	std::string      name;
-	Job              pjob;
-	unsigned int   numins;
-	unsigned int  numouts;
-};
+	extern std::map<std::string, NodeParams> NodeMap;
 
-
-
-Node* create_node(Fsm* pFsm, const NodeType id);
-
-
-std::string get_file_contents(const char *filename);
-//std::string get_file_contents2(const char *filename);
+	std::string get_file_content(const char *filename);
+	//std::string get_file_contents2(const char *filename);
+}
 
 ///////////////// End File  : worker.h  ///////////////////////////////
